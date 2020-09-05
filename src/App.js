@@ -1,82 +1,87 @@
 import React, { useReducer } from 'react';
-import './App.css';
+ import Nav from "./components/Navbar";
+ import todoItem from "./components/Todo";
+ import TodoItem from "./components/Todo";
+// import './App.css';
 import avatar from "./img/guy.png";
-const user = {
-  firstName: "Jay",
-  lastName: "Scholte",
-  avatar: avatar,
 
-};
 
-const todoList = [
-  {
-    id: 1,
-    description: "learn body proportions",
-    isCompleted: false
-  },
-  {
-    id: 2,
-    description: "learn shading",
-    isCompleted: true
-  },
-  {
-    id: 3,
-    description: "learn drawing the head",
-    isCompleted: false
-  }
-]
-function App() {
-  return (
-    <>
-    {/* <div style={pageWrapStyles}> */}
-    <nav style={navStyles.topNavContainer}>
-      <img src={user.avatar} style={navStyles.navAvatar}></img>
-      <h2 style={navStyles.navUserName}>{user.firstName} {user.lastName}</h2>
-    </nav>
-    <div style={listStyles.listContainer}>
-      <h1 style={listStyles.listTitle}>ToDo List</h1>
-      <ul style={listStyles.list}>
-      {todoList.map(todoItems=>(
-        <li key={todoItems.id} style={listStyles.listItem}>
-          <input style={listStyles.listInput} type="checkbox" checked={todoItems.isCompleted} />
-          <span style={todoItems.isCompleted ? listStyles.listCompleted : listStyles.listNotCompleted}>{todoItems.description}</span>
-        </li>
-      ))}
-      </ul>
-    </div>
-  {/* </div> */}
-    </>
-  );
-}
-// const pageWrapStyles = {
-//   // display: "flex",
-//   background: "rgba(116, 192, 235, 0.5)",
+// const user = {
+//   firstName: "Jay",
+//   lastName: "Scholte",
+//   avatar: avatar,
+
 // };
 
-const navStyles = {
-  topNavContainer:{
-    minHeight: "20vh",
-    background: "#FFFFFF",
-boxShadow: "2px 2px 12px 2px rgba(0, 0, 0, 0.25)",
-borderRadius: "10px",
+// const todoList = [
+//   {
+//     id: 1,
+//     description: "learn body proportions",
+//     isCompleted: false
+//   },
+//   {
+//     id: 2,
+//     description: "learn shading",
+//     isCompleted: true
+//   },
+//   {
+//     id: 3,
+//     description: "learn drawing the head",
+//     isCompleted: false
+//   },
+// ];
+
+
+
+class App extends React.Component {
+  state = {
+    user: {
+      firstName: "Jay",
+      lastName: "Scholte",
+      avatar: avatar,
+  },
+  todoList: [
+    {
+      id: 1,
+      description: "learn body proportions",
+      isCompleted: false
+    },
+    {
+      id: 2,
+      description: "learn shading",
+      isCompleted: true
+    },
+    {
+      id: 3,
+      description: "learn drawing the head",
+      isCompleted: false
+    },
+  ],
+}
+  render () {
+  return (
+    <div style={styles.pageWrap}>
+    <Nav user={this.state.user} />
+    <div style={styles.listContainer}>
+      <h1 style={styles.listTitle}>To Do List</h1>
+      <ul>
+      {this.state.todoList.map((todoItem) => (
+        <TodoItem todoItem={todoItem} />
+         ))}
+      </ul>
+  </div>
+</div>
+  );
+}
+}
+
+
+const styles = {
+  pageWrap: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "0 2rem",
-    marginBottom: ".5rem",
-
   },
-  navAvatar:{
-    width: "2rem",
-    borderRadius: "2rem",
-  },
-  navUserName:{
-    color: "fontColor"
-  },
-};
-
-const listStyles = {
-  listContainer:{
+  listContainer: {
+    marginTop: "4rem",
     minHeight: "50vh",
     margin:"5 5", 
     padding: "0 3rem",
@@ -87,27 +92,8 @@ const listStyles = {
   },
   listTitle:{
     marginBottom: ".5rem",
+    borderBottom: "1px solid black",
   },
-  list:{},
-  listItem:{
-    listStyleType: "none",
-    marginBottom: ".5rem",
-    background: "#FFFFFF",
-border: "1px solid #74C0EB",
-boxSizing: "border-box",
-boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-borderRadius: "5px",
-  },
-listInput:{
-  marginRight: ".3rem",
-},
-listItemNotCompleted:{
-  fontSize: ".9rem",
-},
-listCompleted:{
-color: "#DBD3D8",
-textDecoration: "line-through",
-},
 };
 
 export default App;
