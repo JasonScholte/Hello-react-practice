@@ -1,37 +1,11 @@
-import React, { useReducer } from 'react';
+import React from 'react';
+import shortid from "shortid";
  import Nav from "./components/Navbar";
  import todoItem from "./components/Todo";
  import TodoItem from "./components/Todo";
 // import './App.css';
 import avatar from "./img/guy.png";
-
-
-// const user = {
-//   firstName: "Jay",
-//   lastName: "Scholte",
-//   avatar: avatar,
-
-// };
-
-// const todoList = [
-//   {
-//     id: 1,
-//     description: "learn body proportions",
-//     isCompleted: false
-//   },
-//   {
-//     id: 2,
-//     description: "learn shading",
-//     isCompleted: true
-//   },
-//   {
-//     id: 3,
-//     description: "learn drawing the head",
-//     isCompleted: false
-//   },
-// ];
-
-
+import { findAllByTestId } from '@testing-library/react';
 
 class App extends React.Component {
   state = {
@@ -42,21 +16,61 @@ class App extends React.Component {
   },
   todoList: [
     {
-      id: 1,
+      id: shortid.generate(),
       description: "learn body proportions",
       isCompleted: false
     },
     {
-      id: 2,
+      id: shortid.generate(),
       description: "learn shading",
       isCompleted: true
     },
     {
-      id: 3,
+      id: shortid.generate(),
       description: "learn drawing the head",
       isCompleted: false
     },
   ],
+  newDescription: "",
+};
+handleChangeNewTodo = (event) => {
+  const value = event.target.value
+  this.setState({newDescription: value});
+};
+handleAddTodo = () => {
+this.setState((state) => {
+  return {
+    todoList: [
+      ...this.state.todoList, 
+      {id: shortid.generate(), 
+        description: this.state.newDescription, 
+        isCompleted: false},
+      ],
+      newDescription: "",
+  };
+});
+};
+
+handleCheckTodo = (id) => {
+  this.setState((state) => {
+let newList = state.todoList.map((item) => {
+  if (item.id === id){
+    return {...item, isCompleted: !item.isCompleted};
+  }
+  return item;
+});
+return {todoList: newList};
+  });
+};
+handleDeleteTodo = id =>{
+  this.setState((state) => {
+    let filteredList = state.todoList.filter((item) => {
+      if (item.id === id){
+        return false;
+      }
+return true;
+    })
+  })
 }
   render () {
   return (
@@ -66,9 +80,18 @@ class App extends React.Component {
       <h1 style={styles.listTitle}>To Do List</h1>
       <ul>
       {this.state.todoList.map((todoItem) => (
-        <TodoItem todoItem={todoItem} />
+        <TodoItem todoItem={todoItem} 
+        onChangeheckTodo={this.handleCheckTodo}/>
          ))}
       </ul>
+      <input 
+      style={styles.itemInput} 
+      onChange={this.handleChangeNewTodo} 
+      value={this.state.newDescription}
+      type="text" 
+      />
+    <button onClick={this.handleAddTodo} 
+    style={styles.itemButton}>Add New</button>
   </div>
 </div>
   );
@@ -79,21 +102,34 @@ class App extends React.Component {
 const styles = {
   pageWrap: {
     display: "flex",
+
   },
   listContainer: {
-    marginTop: "4rem",
-    minHeight: "50vh",
-    margin:"5 5", 
-    padding: "0 3rem",
-    paddingTop: "1rem",
+    // marginTop: "4rem",
+    margin: ".2rem",
+    width: "auto",
+    // minHeight: "50vh",
+    // margin:"5 5", 
+    // padding: "0 3rem",
+    // paddingTop: ".5rem",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     background: "#FFFDFD",
     boxShadow: "2px 2px 12px 2px rgba(0, 0, 0, 0.25)",
     borderRadius: "10px",
   },
   listTitle:{
-    marginBottom: ".5rem",
-    borderBottom: "1px solid black",
+    marginBottom: "1rem",
+    // borderBottom: "1px solid black",
   },
+  itemInput: {
+    margin: ".2rem",
+    width: "10rem",
+  },
+  itemButton: {
+    margin: ".3rem",
+  }
 };
 
 export default App;

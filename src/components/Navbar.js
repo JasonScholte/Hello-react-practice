@@ -17,6 +17,7 @@ export default Nav;
 
 const styles = {
   container:{
+    width: "auto",
     minHeight: "20vh",
     background: "#FFFFFF",
     boxShadow: "2px 2px 12px 2px rgba(0, 0, 0, 0.25)",
@@ -25,7 +26,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "space-between",
     padding: "0 2rem",
-    marginBottom: ".5rem",
+    margin: ".5rem",
   },
   avatar:{
     width: "2rem",
@@ -35,10 +36,4 @@ const styles = {
     color: "fontColor",
     textAlign: "center",
   },
-  // linkList: {
-  //    marginTop: "10rem",
-  // },
-  // linkListItem: {
-  //   color: fontColor,
-  // },
 };
